@@ -12,6 +12,9 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	solution := day01.Part1(input)
-	fmt.Printf("Day 1 Part 1 solution: %d\n", solution)
+	for i, f := range [](func([]int) int){day01.Part1, day01.Part2} {
+
+		solution := f(input)
+		fmt.Printf("Day 1 Part %d solution: %d\n", i, solution)
+	}
 }

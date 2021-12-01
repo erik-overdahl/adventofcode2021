@@ -11,6 +11,20 @@ func Part1(input []int) int {
 	return numIncreasing
 }
 
+func Part2(input []int) int {
+	numIncreasingWindows := 0
+	sum := 0
+	for _, n := range input[:3] {
+		sum += n
+	}
+	size := len(input) - 3
+	for i := 0; i < size; i++ {
+		lastSum := sum
+		sum -= input[i]
+		sum += input[i+3]
+		if sum > lastSum {
+			numIncreasingWindows++
 		}
 	}
+	return numIncreasingWindows
 }
