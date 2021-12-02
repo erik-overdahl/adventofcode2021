@@ -7,12 +7,23 @@ import (
 )
 
 type SubmarinePosition struct {
+	aim   int
 	horiz int
 	depth int
 }
 
 func Part1(input []string) int {
-	pos := SubmarinePosition{0, 0}
+	pos := calculatePosition(input)
+	return pos.horiz * pos.aim
+}
+
+func Part2(input []string) int {
+	pos := calculatePosition(input)
+	return pos.horiz * pos.depth
+}
+
+func calculatePosition(input []string) SubmarinePosition {
+	pos := SubmarinePosition{0, 0, 0}
 	for _, line := range input {
 		parts := strings.Split(line, " ")
 		direction := parts[0]
@@ -23,11 +34,12 @@ func Part1(input []string) int {
 		switch direction {
 		case "forward":
 			pos.horiz += magnitude
+			pos.depth += magnitude * pos.aim
 		case "down":
-			pos.depth += magnitude
+			pos.aim += magnitude
 		case "up":
-			pos.depth -= magnitude
+			pos.aim -= magnitude
 		}
 	}
-	return pos.horiz * pos.depth
+	return pos
 }

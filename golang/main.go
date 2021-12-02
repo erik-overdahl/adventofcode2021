@@ -23,7 +23,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	for i, f := range [](func([]string) int){day02.Part1} {
+	for i, f := range [](func([]string) int){day02.Part1, day02.Part2} {
 		solution := f(input2)
 		fmt.Printf("Day 1 Part %d solution: %d\n", i, solution)
 	}
