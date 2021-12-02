@@ -25,3 +25,18 @@ func ReadlinesInt(filename string) ([]int, error) {
 	}
 	return lines, nil
 }
+
+func ReadlinesStr(filename string) ([]string, error) {
+	f, err := os.Open(filename)
+	if err != nil {
+		return nil, fmt.Errorf("Unable to read %s: %v", filename, err)
+	}
+	defer f.Close()
+	var lines []string
+	scanner := bufio.NewScanner(f)
+	for scanner.Scan() {
+		line := scanner.Text()
+		lines = append(lines, line)
+	}
+	return lines, nil
+}
