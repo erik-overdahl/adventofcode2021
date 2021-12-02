@@ -1,30 +1,20 @@
 package day01
 
 func Part1(input []int) int {
+	return numIncreasingWindows(input, 1)
+}
+
+func Part2(input []int) int {
+	return numIncreasingWindows(input, 3)
+}
+
+func numIncreasingWindows(input []int, windowSize int) int {
 	size := len(input)
 	numIncreasing := 0
-	for i := 0; i < size - 1; i++ {
-		if input[i+1] > input[i] {
+	for i := windowSize; i < size; i++ {
+		if input[i] > input[i-windowSize] {
 			numIncreasing++
 		}
 	}
 	return numIncreasing
-}
-
-func Part2(input []int) int {
-	numIncreasingWindows := 0
-	sum := 0
-	for _, n := range input[:3] {
-		sum += n
-	}
-	size := len(input) - 3
-	for i := 0; i < size; i++ {
-		lastSum := sum
-		sum -= input[i]
-		sum += input[i+3]
-		if sum > lastSum {
-			numIncreasingWindows++
-		}
-	}
-	return numIncreasingWindows
 }
