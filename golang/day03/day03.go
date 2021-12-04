@@ -4,21 +4,22 @@ import (
 	"strconv"
 )
 
-func Part1(input []string) uint64 {
-	halfSize := uint64(len(input) / 2)
+func Part1(input []string) int {
+	halfSize := len(input) / 2
 	numBits := len(input[0])
-	gammaVals := make([]uint64, numBits)
+	gammaVals := make([]int, numBits)
 	for _, s := range input {
-		n, err := strconv.ParseUint(s, 2, 64)
+		N, err := strconv.ParseInt(s, 2, 64)
 		if err != nil {
 			panic(err)
 		}
-		for i, _ := range gammaVals {
-			gammaVals[i] += (n >> i) & 1
+		n := int(N)
+		for i := range gammaVals {
+			gammaVals[i] += bitAt(n, i)
 		}
 	}
-	gamma := uint64(0)
-	var bit uint64
+	gamma := 0
+	var bit int
 	for j := numBits - 1; j >= 0; j-- {
 		if gammaVals[j] > halfSize {
 			bit = 1
@@ -27,8 +28,15 @@ func Part1(input []string) uint64 {
 		}
 		gamma = (gamma << 1) | bit
 	}
-	mask := uint64((1 << numBits) - 1)
-	epsilon := (^gamma) & mask
+	epsilon := flipBits(gamma, numBits)
 	return epsilon * gamma
 }
 
+func bitAt(n int, pos int) int {
+	return (n >> pos) & 1
+}
+
+func flipBits(num int, size int) int {
+	mask := (1 << size) - 1
+	return (^num) & mask
+}
