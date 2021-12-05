@@ -4,6 +4,7 @@ import (
 	"aoc2021/day01"
 	"aoc2021/day02"
 	"aoc2021/day03"
+	"aoc2021/day04"
 	"aoc2021/utils"
 	"fmt"
 )
@@ -37,5 +38,15 @@ func main() {
 	for i, f := range [](func([]string) int){day03.Part1, day03.Part2} {
 		solution := f(input3)
 		fmt.Printf("Day 3 Part %d solution: %d\n", i+1, solution)
+	}
+
+	filename = "../inputs/004.txt"
+	input4, err := utils.ReadlinesStr(filename)
+	if err != nil {
+		panic(err)
+	}
+	for i, f := range [](func([]string) int){day04.Part1} {
+		solution := f(input4)
+		fmt.Printf("Day 4 Part %d solution: %d\n", i+1, solution)
 	}
 }

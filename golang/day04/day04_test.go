@@ -47,7 +47,7 @@ func TestCheckRows(t *testing.T) {
 		},
 	}
 	for _, c := range cases {
-		actual := c.card.CheckRows()
+		actual := CheckRows(c.card)
 		if actual != c.expected {
 			t.Fatalf("%s: expected %v, got %v", c.name, c.expected, actual)
 		}
@@ -62,8 +62,13 @@ func TestCheckCols(t *testing.T) {
 			expected: false,
 		},
 		{
-			name:     "First col marked",
-			card:     &BingoCard{nums: [25]int8{}, marked: [25]bool{true, true, true, true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false}},
+			name: "First col marked",
+			card: &BingoCard{nums: [25]int8{}, marked: [25]bool{
+				true, true, true, true, true,
+				true, false, false, false, false,
+				true, false, false, false, false,
+				true, false, false, false, false,
+				true, false, false, false, false}},
 			expected: true,
 		},
 		{
@@ -73,33 +78,7 @@ func TestCheckCols(t *testing.T) {
 		},
 	}
 	for _, c := range cases {
-		actual := c.card.CheckRows()
-		if actual != c.expected {
-			t.Fatalf("%s: expected %v, got %v", c.name, c.expected, actual)
-		}
-	}
-}
-
-func TestSumUnmarked(t *testing.T) {
-	cases := []testCard{
-		{
-			name:     "All false",
-			card:     &BingoCard{nums: [25]int8{}, marked: [25]bool{}},
-			expected: false,
-		},
-		{
-			name:     "First col marked",
-			card:     &BingoCard{nums: [25]int8{}, marked: [25]bool{true, true, true, true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false}},
-			expected: true,
-		},
-		{
-			name:     "Some true, no complete col",
-			card:     &BingoCard{nums: [25]int8{}, marked: [25]bool{false, true, true, false, false, true, false, true, false, false, true, true, false, false, false, true, true, true, false, false, true, true, true, false, false}},
-			expected: false,
-		},
-	}
-	for _, c := range cases {
-		actual := c.card.CheckRows()
+		actual := CheckCols(c.card)
 		if actual != c.expected {
 			t.Fatalf("%s: expected %v, got %v", c.name, c.expected, actual)
 		}
