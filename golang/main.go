@@ -10,6 +10,7 @@ import (
 	"aoc2021/utils"
 	"path/filepath"
 	"sync"
+	"time"
 
 	"fmt"
 )
@@ -43,7 +44,15 @@ func runDay(s utils.AOCDay) {
 		panic(err)
 	}
 	s.Init(path)
-	p1 := fmt.Sprintf("Day %d Part 1 solution: %s\n", day, s.Part1())
-	p2 := fmt.Sprintf("Day %d Part 2 solution: %s\n", day, s.Part2())
-	fmt.Printf("%s%s", p1, p2)
+	start := time.Now()
+	p1 := s.Part1()
+	elapsed := time.Since(start)
+	s1 := fmt.Sprintf("Day %d Part 1 solution: %s  (took %s)\n", day, p1, elapsed)
+
+	start = time.Now()
+	p2 := s.Part2()
+	elapsed = time.Since(start)
+	s2 := fmt.Sprintf("Day %d Part 2 solution: %s  (took %s)\n", day, p2, elapsed)
+
+	fmt.Printf("%s%s", s1, s2)
 }
