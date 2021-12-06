@@ -7,57 +7,28 @@ import (
 	"aoc2021/day04"
 	"aoc2021/day06"
 	"aoc2021/utils"
+	"path/filepath"
+
 	"fmt"
 )
 
 func main() {
-	filename := "../inputs/001.txt"
-	input, err := utils.ReadlinesInt(filename)
-	if err != nil {
-		panic(err)
+	solutions := []utils.AOCDay{
+		&day01.Solution{},
+		&day02.Solution{},
+		&day03.Solution{},
+		&day04.Solution{},
+		&day06.Solution{},
 	}
-	for i, f := range [](func([]int) int){day01.Part1, day01.Part2} {
-		solution := f(input)
-		fmt.Printf("Day 1 Part %d solution: %d\n", i+1, solution)
-	}
-
-	filename = "../inputs/002.txt"
-	input2, err := utils.ReadlinesStr(filename)
-	if err != nil {
-		panic(err)
-	}
-	for i, f := range [](func([]string) int){day02.Part1, day02.Part2} {
-		solution := f(input2)
-		fmt.Printf("Day 2 Part %d solution: %d\n", i+1, solution)
-	}
-
-	filename = "../inputs/003.txt"
-	input3, err := utils.ReadlinesStr(filename)
-	if err != nil {
-		panic(err)
-	}
-	for i, f := range [](func([]string) int){day03.Part1, day03.Part2} {
-		solution := f(input3)
-		fmt.Printf("Day 3 Part %d solution: %d\n", i+1, solution)
-	}
-
-	filename = "../inputs/004.txt"
-	input4, err := utils.ReadlinesStr(filename)
-	if err != nil {
-		panic(err)
-	}
-	for i, f := range [](func([]string) int){day04.Part1, day04.Part2} {
-		solution := f(input4)
-		fmt.Printf("Day 4 Part %d solution: %d\n", i+1, solution)
-	}
-
-	filename = "../inputs/006.txt"
-	input6, err := utils.ReadlinesStr(filename)
-	if err != nil {
-		panic(err)
-	}
-	for i, f := range [](func([]string) int){day06.Part1, day06.Part2} {
-		solution := f(input6)
-		fmt.Printf("Day 6 Part %d solution: %d\n", i+1, solution)
+	for _, s := range solutions {
+		day := s.Day()
+		filename := fmt.Sprintf("../inputs/0%02d.txt", day)
+		path, err := filepath.Abs(filename)
+		if err != nil {
+			panic(err)
+		}
+		s.Init(path)
+		fmt.Printf("Day %d Part 1 solution: %s\n", day, s.Part1())
+		fmt.Printf("Day %d Part 2 solution: %s\n", day, s.Part2())
 	}
 }

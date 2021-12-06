@@ -1,0 +1,28 @@
+package day03
+
+import (
+	"aoc2021/utils"
+	"fmt"
+)
+
+type Solution struct {
+	input []string
+}
+
+func (d *Solution) Day() int {
+	return 3
+}
+
+func (d *Solution) Init(filename string) {
+	d.input = utils.ReadlinesStr(filename)
+}
+
+func (d *Solution) Part1() string {
+	answer := part1(d.input)
+	return fmt.Sprintf("%d", answer)
+}
+
+func (d *Solution) Part2() string {
+	answer := part2(d.input)
+	return fmt.Sprintf("%d", answer)
+}

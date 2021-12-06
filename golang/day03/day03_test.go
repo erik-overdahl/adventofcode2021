@@ -4,50 +4,31 @@ import (
 	"testing"
 )
 
+var testSolution Solution
+
 func TestPart1(t *testing.T) {
-	input := []string{
-		"00100",
-		"11110",
-		"10110",
-		"10111",
-		"10101",
-		"01111",
-		"00111",
-		"11100",
-		"10000",
-		"11001",
-		"00010",
-		"01010",
+	if testSolution.input == nil {
+		testFile := "../../inputs/003-example.txt"
+		testSolution.Init(testFile)
 	}
-	expected := int(198)
-	actual := Part1(input)
+	expected := "198"
+	actual := testSolution.Part1()
 	if actual != expected {
-		t.Fatalf("Expected %d, got %d", expected, actual)
+		t.Fatalf("Expected %s, got %s", expected, actual)
 	}
 }
 
 func TestPart2(t *testing.T) {
-	input := []string{
-		"00100",
-		"11110",
-		"10110",
-		"10111",
-		"10101",
-		"01111",
-		"00111",
-		"11100",
-		"10000",
-		"11001",
-		"00010",
-		"01010",
+	if testSolution.input == nil {
+		testFile := "../../inputs/003-example.txt"
+		testSolution.Init(testFile)
 	}
-	expected := int(230)
-	actual := Part2(input)
+	expected := "230"
+	actual := testSolution.Part2()
 	if actual != expected {
-		t.Fatalf("Expected %d, got %d", expected, actual)
+		t.Fatalf("Expected %s, got %s", expected, actual)
 	}
 }
-
 func TestMostCommonBitAt(t *testing.T) {
 	type testcase struct {
 		input    []int

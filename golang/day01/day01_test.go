@@ -1,30 +1,31 @@
 package day01
 
 import (
-	"aoc2021/utils"
 	"testing"
 )
 
+var testSolution Solution
+
 func TestPart1(t *testing.T) {
-	input, err := utils.ReadlinesInt("../../inputs/001-example.txt")
-	if err != nil {
-		panic(err)
+	if testSolution.input == nil {
+		testFile := "../../inputs/001-example.txt"
+		testSolution.Init(testFile)
 	}
-	expected := 7
-	actual := Part1(input)
+	expected := "7"
+	actual := testSolution.Part1()
 	if actual != expected {
-		t.Fatalf("Input %v: expected %d, got %d", input, expected, actual)
+		t.Fatalf("Input %v: expected %s, got %s", testSolution.input, expected, actual)
 	}
 }
 
 func TestPart2(t *testing.T) {
-	input, err := utils.ReadlinesInt("../../inputs/001-example.txt")
-	if err != nil {
-		panic(err)
+	if testSolution.input == nil {
+		testFile := "../../inputs/001-example.txt"
+		testSolution.Init(testFile)
 	}
-	expected := 5
-	actual := Part2(input)
+	expected := "5"
+	actual := testSolution.Part2()
 	if actual != expected {
-		t.Fatalf("Input %v: expected %d, got %d", input, expected, actual)
+		t.Fatalf("Input %v: expected %s, got %s", testSolution.input, expected, actual)
 	}
 }

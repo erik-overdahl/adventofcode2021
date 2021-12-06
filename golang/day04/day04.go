@@ -6,6 +6,37 @@ import (
 	"strings"
 )
 
+func part1(draws []int, cards []*BingoCard) int {
+	for _, draw := range draws {
+		for _, card := range cards {
+			marked := MarkIfPresent(card, draw)
+			if marked && (CheckCols(card) || CheckRows(card)) {
+				return SumUnmarked(card) * draw
+			}
+		}
+	}
+	return 0
+}
+
+func part2(draws []int, cards []*BingoCard) int {
+	size := len(draws)
+	lastWinningDraw := 0
+	var lastWinningCard *BingoCard
+	for _, card := range cards {
+		for i := 0; i < size; i++ {
+			marked := MarkIfPresent(card, draws[i])
+			if marked && (CheckCols(card) || CheckRows(card)) {
+				if i > lastWinningDraw {
+					lastWinningDraw = i
+					lastWinningCard = card
+				}
+				break
+			}
+		}
+	}
+	return SumUnmarked(lastWinningCard) * draws[lastWinningDraw]
+}
+
 type BingoCard struct {
 	nums   [25]int
 	marked [25]bool
@@ -28,39 +59,6 @@ func (b *BingoCard) ToString() string {
 		s = fmt.Sprintf("%s%s\n", s, row)
 	}
 	return s
-}
-
-func Part1(input []string) int {
-	draws, cards := readInput(input)
-	for _, draw := range draws {
-		for _, card := range cards {
-			marked := MarkIfPresent(card, draw)
-			if marked && (CheckCols(card) || CheckRows(card)) {
-				return SumUnmarked(card) * draw
-			}
-		}
-	}
-	return 0
-}
-
-func Part2(input []string) int {
-	draws, cards := readInput(input)
-	size := len(draws)
-	lastWinningDraw := 0
-	var lastWinningCard *BingoCard
-	for _, card := range cards {
-		for i := 0; i < size; i++ {
-			marked := MarkIfPresent(card, draws[i])
-			if marked && (CheckCols(card) || CheckRows(card)) {
-				if i > lastWinningDraw {
-					lastWinningDraw = i
-					lastWinningCard = card
-				}
-				break
-			}
-		}
-	}
-	return SumUnmarked(lastWinningCard) * draws[lastWinningDraw]
 }
 
 func NewBingoCard(lines []string) *BingoCard {

@@ -1,35 +1,32 @@
 package day02
 
 import (
-	"aoc2021/utils"
-	"fmt"
 	"log"
 	"testing"
 )
 
-func getData() []string {
-	inputFile := "../../inputs/002-example.txt"
-	input, err := utils.ReadlinesStr(inputFile)
-	if err != nil {
-		panic(fmt.Errorf("Unable to open file '%s': %v", inputFile, err))
-	}
-	return input
-}
+var testSolution Solution
 
 func TestPart1(t *testing.T) {
-	input := getData()
-	expected := 150
-	actual := Part1(input)
+	if testSolution.input == nil {
+		testFile := "../../inputs/002-example.txt"
+		testSolution.Init(testFile)
+	}
+	expected := "150"
+	actual := testSolution.Part1()
 	if actual != expected {
-		log.Fatalf("Expected %d, got %d for input '%v'", expected, actual, input)
+		log.Fatalf("Expected %s, got %s for input '%v'", expected, actual, testSolution.input)
 	}
 }
 
 func TestPart2(t *testing.T) {
-	input := getData()
-	expected := 900
-	actual := Part2(input)
+	if testSolution.input == nil {
+		testFile := "../../inputs/002-example.txt"
+		testSolution.Init(testFile)
+	}
+	expected := "900"
+	actual := testSolution.Part2()
 	if actual != expected {
-		log.Fatalf("Expected %d, got %d for input '%v'", expected, actual, input)
+		log.Fatalf("Expected %s, got %s for input '%v'", expected, actual, testSolution.input)
 	}
 }

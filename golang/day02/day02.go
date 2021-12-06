@@ -12,17 +12,7 @@ type SubmarinePosition struct {
 	depth int
 }
 
-func Part1(input []string) int {
-	pos := calculatePosition(input)
-	return pos.horiz * pos.aim
-}
-
-func Part2(input []string) int {
-	pos := calculatePosition(input)
-	return pos.horiz * pos.depth
-}
-
-func calculatePosition(input []string) SubmarinePosition {
+func calculatePosition(input []string) *SubmarinePosition {
 	pos := SubmarinePosition{0, 0, 0}
 	for _, line := range input {
 		parts := strings.Split(line, " ")
@@ -41,5 +31,5 @@ func calculatePosition(input []string) SubmarinePosition {
 			pos.aim -= magnitude
 		}
 	}
-	return pos
+	return &pos
 }

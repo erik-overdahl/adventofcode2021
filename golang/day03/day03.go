@@ -5,7 +5,7 @@ import (
 	"strconv"
 )
 
-func Part1(input []string) int {
+func part1(input []string) int {
 	halfSize := len(input) / 2
 	numBits := len(input[0])
 	gammaVals := make([]int, numBits)
@@ -33,7 +33,7 @@ func Part1(input []string) int {
 	return epsilon * gamma
 }
 
-func Part2(input []string) int {
+func part2(input []string) int {
 	numBits := len(input[0])
 	nums := make([]int, len(input))
 	for i, s := range input {
