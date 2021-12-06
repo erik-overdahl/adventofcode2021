@@ -1,15 +1,18 @@
 package day01
 
 import (
+	"aoc2021/utils"
 	"testing"
 )
+
+const testFile = "../inputs/001-example.txt"
 
 var testSolution Solution
 
 func TestPart1(t *testing.T) {
 	if testSolution.input == nil {
-		testFile := "../../inputs/001-example.txt"
-		testSolution.Init(testFile)
+		testFileBlob := utils.ReadFileToString(testFile)
+		testSolution.Init(testFileBlob)
 	}
 	expected := "7"
 	actual := testSolution.Part1()
@@ -20,8 +23,8 @@ func TestPart1(t *testing.T) {
 
 func TestPart2(t *testing.T) {
 	if testSolution.input == nil {
-		testFile := "../../inputs/001-example.txt"
-		testSolution.Init(testFile)
+		testFileBlob := utils.ReadFileToString(testFile)
+		testSolution.Init(testFileBlob)
 	}
 	expected := "5"
 	actual := testSolution.Part2()

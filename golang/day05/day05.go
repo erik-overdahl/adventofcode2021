@@ -21,7 +21,7 @@ func makePoint(x, y int) Point {
 
 func makeLine(p1, p2 Point) Line {
 	// always put leftmost/uppermost point first
-	if (p1.x < p2.x) || (p1.y > p2.y) {
+	if (p1.x < p2.x) || ((p1.x == p2.x) && (p1.y > p2.y)) {
 		return Line{p1, p2}
 	} else {
 		return Line{p2, p1}

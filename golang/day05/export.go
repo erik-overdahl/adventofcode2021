@@ -14,8 +14,8 @@ func (d *Solution) Day() int {
 	return 5
 }
 
-func (d *Solution) Init(filename string) {
-	d.input = utils.ReadlinesStr(filename)
+func (d *Solution) Init(inputBlob string) {
+	d.input = utils.ReadlinesStr(inputBlob)
 	d.lines = readInput(d.input)
 }
 

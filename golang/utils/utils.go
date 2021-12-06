@@ -3,18 +3,23 @@ package utils
 import (
 	"bufio"
 	"fmt"
-	"os"
+	"io/ioutil"
 	"strconv"
+	"strings"
 )
 
-func ReadlinesInt(filename string) []int {
-	f, err := os.Open(filename)
+func ReadFileToString(filename string) string {
+	contents, err := ioutil.ReadFile(filename)
 	if err != nil {
 		panic(fmt.Errorf("Unable to read %s: %v", filename, err))
 	}
-	defer f.Close()
+	return string(contents)
+}
+
+func ReadlinesInt(inputBlob string) []int {
 	var lines []int
-	scanner := bufio.NewScanner(f)
+	reader := strings.NewReader(inputBlob)
+	scanner := bufio.NewScanner(reader)
 	for scanner.Scan() {
 		line := scanner.Text()
 		intLine, err := strconv.Atoi(line)
@@ -26,14 +31,10 @@ func ReadlinesInt(filename string) []int {
 	return lines
 }
 
-func ReadlinesStr(filename string) []string {
-	f, err := os.Open(filename)
-	if err != nil {
-		panic(fmt.Errorf("Unable to read %s: %v", filename, err))
-	}
-	defer f.Close()
+func ReadlinesStr(inputBlob string) []string {
 	var lines []string
-	scanner := bufio.NewScanner(f)
+	reader := strings.NewReader(inputBlob)
+	scanner := bufio.NewScanner(reader)
 	for scanner.Scan() {
 		line := scanner.Text()
 		lines = append(lines, line)

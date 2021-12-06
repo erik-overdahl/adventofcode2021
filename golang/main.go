@@ -8,7 +8,7 @@ import (
 	"aoc2021/day05"
 	"aoc2021/day06"
 	"aoc2021/utils"
-	"path/filepath"
+	"embed"
 	"sync"
 	"time"
 
@@ -16,6 +16,9 @@ import (
 )
 
 var wg sync.WaitGroup
+
+//go:embed inputs/*
+var inputs embed.FS
 
 func main() {
 	solutions := []utils.AOCDay{
@@ -38,12 +41,12 @@ func main() {
 
 func runDay(s utils.AOCDay) {
 	day := s.Day()
-	filename := fmt.Sprintf("../inputs/0%02d.txt", day)
-	path, err := filepath.Abs(filename)
+	filename := fmt.Sprintf("inputs/0%02d.txt", day)
+	inputBytes, err := inputs.ReadFile(filename)
 	if err != nil {
 		panic(err)
 	}
-	s.Init(path)
+	s.Init(string(inputBytes))
 	start := time.Now()
 	p1 := s.Part1()
 	elapsed := time.Since(start)

@@ -1,16 +1,18 @@
 package day06
 
 import (
+	"aoc2021/utils"
 	"testing"
 )
 
-const testFile = "../../inputs/006-example.txt"
+const testFile = "../inputs/006-example.txt"
 
 var testSolution Solution
 
 func TestPopulationOnDay(t *testing.T) {
 	if testSolution.input == nil {
-		testSolution.Init(testFile)
+		testFileBlob := utils.ReadFileToString(testFile)
+		testSolution.Init(testFileBlob)
 	}
 	cases := [][]int{
 		{18, 26},
