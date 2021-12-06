@@ -7,20 +7,21 @@ import (
 )
 
 type BingoCard struct {
-	nums   [25]int8
+	nums   [25]int
 	marked [25]bool
 }
 
 func (b *BingoCard) ToString() string {
-	bold := "\033[1m"
+	red := "\033[31m"
+	colorOff := "\033[0m"
 	s := ""
 	for i := 0; i < 25; i += 5 {
 		row := ""
 		for j := 0; j < 5; j++ {
 			cell := b.nums[i+j]
-			sCell := fmt.Sprintf("%d", cell)
+			sCell := fmt.Sprintf("%2d", cell)
 			if b.marked[i+j] {
-				sCell = fmt.Sprintf("%s%s", bold, sCell)
+				sCell = fmt.Sprintf("%s%s%s", red, sCell, colorOff)
 			}
 			row = fmt.Sprintf("%s %s", row, sCell)
 		}
@@ -30,33 +31,40 @@ func (b *BingoCard) ToString() string {
 }
 
 func Part1(input []string) int {
-	inputSize := len(input)
-	draws := readDraws(input[0])
-	var cards []*BingoCard
-	for i := 2; i < inputSize; i += 6 {
-		card := NewBingoCard(input[i : i+6])
-		cards = append(cards, card)
-	}
-	winningCard, lastDraw := runBingo(draws, cards)
-	return SumUnmarked(winningCard) * lastDraw
-}
-
-func runBingo(draws []int8, cards []*BingoCard) (*BingoCard, int) {
+	draws, cards := readInput(input)
 	for _, draw := range draws {
 		for _, card := range cards {
 			marked := MarkIfPresent(card, draw)
-			if marked {
-				if CheckCols(card) || CheckRows(card) {
-					return card, int(draw)
-				}
+			if marked && (CheckCols(card) || CheckRows(card)) {
+				return SumUnmarked(card) * draw
 			}
 		}
 	}
-	return &BingoCard{}, 0
+	return 0
+}
+
+func Part2(input []string) int {
+	draws, cards := readInput(input)
+	size := len(draws)
+	lastWinningDraw := 0
+	var lastWinningCard *BingoCard
+	for _, card := range cards {
+		for i := 0; i < size; i++ {
+			marked := MarkIfPresent(card, draws[i])
+			if marked && (CheckCols(card) || CheckRows(card)) {
+				if i > lastWinningDraw {
+					lastWinningDraw = i
+					lastWinningCard = card
+				}
+				break
+			}
+		}
+	}
+	return SumUnmarked(lastWinningCard) * draws[lastWinningDraw]
 }
 
 func NewBingoCard(lines []string) *BingoCard {
-	nums := [25]int8{}
+	nums := [25]int{}
 	for i, line := range lines {
 		row := i * 5
 		c := 0
@@ -66,7 +74,7 @@ func NewBingoCard(lines []string) *BingoCard {
 				if err != nil {
 					panic(err)
 				}
-				nums[row+c] = int8(n)
+				nums[row+c] = n
 				c++
 			}
 		}
@@ -74,7 +82,7 @@ func NewBingoCard(lines []string) *BingoCard {
 	return &BingoCard{nums: nums, marked: [25]bool{}}
 }
 
-func MarkIfPresent(card *BingoCard, draw int8) bool {
+func MarkIfPresent(card *BingoCard, draw int) bool {
 	for i, n := range card.nums {
 		if n == draw {
 			card.marked[i] = true
@@ -120,14 +128,24 @@ func SumUnmarked(b *BingoCard) int {
 	return sum
 }
 
-func readDraws(rawline string) []int8 {
-	var draws []int8
+func readDraws(rawline string) []int {
+	var draws []int
 	for _, s := range strings.Split(rawline, ",") {
 		n, err := strconv.Atoi(s)
 		if err != nil {
 			panic(err)
 		}
-		draws = append(draws, int8(n))
+		draws = append(draws, n)
 	}
 	return draws
+}
+
+func readInput(input []string) (draws []int, cards []*BingoCard) {
+	inputSize := len(input)
+	draws = readDraws(input[0])
+	for i := 2; i < inputSize; i += 6 {
+		card := NewBingoCard(input[i : i+6])
+		cards = append(cards, card)
+	}
+	return
 }
