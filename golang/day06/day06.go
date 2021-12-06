@@ -10,6 +10,11 @@ func Part1(input []string) int {
 	return populationOnDay(80, counts)
 }
 
+func Part2(input []string) int {
+	counts := readInput(input)
+	return populationOnDay(256, counts)
+}
+
 func populationOnDay(day int, counts [9]int) int {
 	for i := 0; i < day; i++ {
 		counts = runGeneration(counts)
