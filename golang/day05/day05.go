@@ -88,7 +88,7 @@ func pointsCovered(lines []Line) map[Point]int {
 		p1 := line.start
 		p2 := line.end
 		// only consider diagonal lines; p1 always leftmost
-		if p1.y < p2.y {
+		if (p1.x != p2.x) && (p1.y < p2.y) {
 			for x, y := p1.x, p1.y; x <= p2.x && y <= p2.y; x, y = x+1, y+1 {
 				pt := makePoint(x, y)
 				if _, exists := covered[pt]; !exists {
@@ -97,7 +97,7 @@ func pointsCovered(lines []Line) map[Point]int {
 					covered[pt]++
 				}
 			}
-		} else {
+		} else if (p1.x != p2.x) && (p1.y > p2.y) {
 			for x, y := p1.x, p1.y; x <= p2.x && y >= p2.y; x, y = x+1, y-1 {
 				pt := makePoint(x, y)
 				if _, exists := covered[pt]; !exists {
