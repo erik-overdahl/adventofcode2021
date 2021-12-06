@@ -7,10 +7,10 @@ import (
 	"strconv"
 )
 
-func ReadlinesInt(filename string) ([]int, error) {
+func ReadlinesInt(filename string) []int {
 	f, err := os.Open(filename)
 	if err != nil {
-		return nil, fmt.Errorf("Unable to read %s: %v", filename, err)
+		panic(fmt.Errorf("Unable to read %s: %v", filename, err))
 	}
 	defer f.Close()
 	var lines []int
@@ -19,17 +19,17 @@ func ReadlinesInt(filename string) ([]int, error) {
 		line := scanner.Text()
 		intLine, err := strconv.Atoi(line)
 		if err != nil {
-			return nil, fmt.Errorf("Failed to convert %s to int: %v", line, err)
+			panic(fmt.Errorf("Failed to convert %s to int: %v", line, err))
 		}
 		lines = append(lines, intLine)
 	}
-	return lines, nil
+	return lines
 }
 
-func ReadlinesStr(filename string) ([]string, error) {
+func ReadlinesStr(filename string) []string {
 	f, err := os.Open(filename)
 	if err != nil {
-		return nil, fmt.Errorf("Unable to read %s: %v", filename, err)
+		panic(fmt.Errorf("Unable to read %s: %v", filename, err))
 	}
 	defer f.Close()
 	var lines []string
@@ -38,5 +38,5 @@ func ReadlinesStr(filename string) ([]string, error) {
 		line := scanner.Text()
 		lines = append(lines, line)
 	}
-	return lines, nil
+	return lines
 }
