@@ -9,6 +9,7 @@ import (
 	"aoc2021/day06"
 	"aoc2021/utils"
 	"embed"
+	"strings"
 	"sync"
 	"time"
 
@@ -46,7 +47,8 @@ func runDay(s utils.AOCDay) {
 	if err != nil {
 		panic(err)
 	}
-	s.Init(string(inputBytes))
+	inputBlob := strings.Trim(string(inputBytes), "\n")
+	s.Init(inputBlob)
 	start := time.Now()
 	p1 := s.Part1()
 	elapsed := time.Since(start)

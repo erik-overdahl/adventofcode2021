@@ -13,7 +13,7 @@ func ReadFileToString(filename string) string {
 	if err != nil {
 		panic(fmt.Errorf("Unable to read %s: %v", filename, err))
 	}
-	return string(contents)
+	return strings.Trim(string(contents), "\n")
 }
 
 func ReadlinesInt(inputBlob string) []int {
