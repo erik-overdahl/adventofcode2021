@@ -38,13 +38,12 @@ func TestAdjustedFuelToAlign(t *testing.T) {
 		testBlob := utils.ReadFileToString(testFile)
 		testSolution.Init(testBlob)
 	}
-	testCrabs := countCrabs(testSolution.positions)
 	cases := [][]int{
 		{2, 206},
 		{5, 168},
 	}
 	for _, c := range cases {
-		actual := adjustedFuelToAlign(c[0], testCrabs)
+		actual := adjustedFuelToAlign(c[0], testSolution.positions)
 		if actual != c[1] {
 			t.Fatalf("Position %d: Expected %d, got %d", c[0], c[1], actual)
 		}
@@ -56,7 +55,6 @@ func TestFuelToAlign(t *testing.T) {
 		testBlob := utils.ReadFileToString(testFile)
 		testSolution.Init(testBlob)
 	}
-	testCrabs := countCrabs(testSolution.positions)
 	cases := [][]int{
 		{2, 37},
 		{1, 41},
@@ -64,7 +62,7 @@ func TestFuelToAlign(t *testing.T) {
 		{10, 71},
 	}
 	for _, c := range cases {
-		actual := fuelToAlign(c[0], testCrabs)
+		actual := fuelToAlign(c[0], testSolution.positions)
 		if actual != c[1] {
 			t.Fatalf("Position %d: Expected %d, got %d", c[0], c[1], actual)
 		}

@@ -1,16 +1,16 @@
 package day07
 
-func minFuelToAlign(crabs map[int]int, fuelCalc func(int, map[int]int) int) int {
+func minFuelToAlign(crabs []int, fuelCalc func(int, []int) int) int {
 	minPos := 100000
 	maxPos := 0
-	for c, _ := range crabs {
+	for c := range crabs {
 		if c > maxPos {
 			maxPos = c
 		} else if c < minPos {
 			minPos = c
 		}
 	}
-	minFuel := 100000000000
+	minFuel := (1 << 62)
 	for i := minPos; i <= maxPos; i++ {
 		fuel := fuelCalc(i, crabs)
 		if fuel < minFuel {
@@ -20,18 +20,18 @@ func minFuelToAlign(crabs map[int]int, fuelCalc func(int, map[int]int) int) int 
 	return minFuel
 }
 
-func adjustedFuelToAlign(position int, crabs map[int]int) int {
+func adjustedFuelToAlign(position int, crabs []int) int {
 	fuel := 0
-	for crab, count := range crabs {
-		fuel += sumTo(abs(position-crab)) * count
+	for _, crab := range crabs {
+		fuel += sumTo(abs(position - crab))
 	}
 	return fuel
 }
 
-func fuelToAlign(position int, crabs map[int]int) int {
+func fuelToAlign(position int, crabs []int) int {
 	fuel := 0
-	for crab, count := range crabs {
-		fuel += abs(position-crab) * count
+	for _, crab := range crabs {
+		fuel += abs(position - crab)
 	}
 	return fuel
 }
