@@ -8,6 +8,7 @@ import (
 
 type Solution struct {
 	positions []int
+	crabs     map[int]int
 }
 
 func (d *Solution) Day() int {
@@ -24,14 +25,15 @@ func (d *Solution) Init(inputBlob string) {
 		}
 		d.positions[i] = n
 	}
+	d.crabs = countCrabs(d.positions)
 }
 
 func (d *Solution) Part1() string {
-	crabs := countCrabs(d.positions)
-	answer := minFuelToAlign(crabs)
+	answer := minFuelToAlign(d.crabs, fuelToAlign)
 	return fmt.Sprintf("%d", answer)
 }
 
 func (d *Solution) Part2() string {
-	return ""
+	answer := minFuelToAlign(d.crabs, adjustedFuelToAlign)
+	return fmt.Sprintf("%d", answer)
 }
