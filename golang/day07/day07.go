@@ -36,18 +36,6 @@ func fuelToAlign(position int, crabs []int) int {
 	return fuel
 }
 
-func countCrabs(crabs []int) map[int]int {
-	counts := make(map[int]int)
-	for _, c := range crabs {
-		if _, exists := counts[c]; exists {
-			counts[c]++
-		} else {
-			counts[c] = 1
-		}
-	}
-	return counts
-}
-
 func sumTo(n int) int {
 	return (n * (n + 1)) >> 1
 }
