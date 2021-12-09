@@ -23,5 +23,6 @@ func (d *Solution) Part1() string {
 }
 
 func (d *Solution) Part2() string {
-	return ""
+	answer := part2(d.input)
+	return fmt.Sprintf("%d", answer)
 }
