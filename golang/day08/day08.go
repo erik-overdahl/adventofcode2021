@@ -27,13 +27,13 @@ func part2(input []string) int {
 	sumDisplays := 0
 	mappings := readInput(input)
 	for _, m := range mappings {
-		displayedNum := decodeOutputDigits(m)
+		displayedNum := decode(m)
 		sumDisplays += displayedNum
 	}
 	return sumDisplays
 }
 
-func decodeOutputDigits(m signalMapping) int {
+func decode(m signalMapping) int {
 	known := make([]byte, 10)
 	others := make([]byte, 0, 6)
 	for _, b := range m.inputs {
@@ -104,16 +104,19 @@ func readInput(input []string) []signalMapping {
 func makeSignalMapping(s string) signalMapping {
 	parts := strings.Split(s, " | ")
 	rawInputs := strings.Split(parts[0], " ")
-	inputs := make([]byte, 10)
-	for i, r := range rawInputs {
-		inputs[i] = convertToByte(r)
-	}
 	rawOutputs := strings.Split(parts[1], " ")
-	outputs := make([]byte, 4)
-	for i, r := range rawOutputs {
-		outputs[i] = convertToByte(r)
+	return signalMapping{
+		stringsToBytes(rawInputs),
+		stringsToBytes(rawOutputs),
 	}
-	return signalMapping{inputs, outputs}
+}
+
+func stringsToBytes(s []string) []byte {
+	result := make([]byte, len(s))
+	for i, r := range s {
+		result[i] = convertToByte(r)
+	}
+	return result
 }
 
 func convertToByte(s string) byte {

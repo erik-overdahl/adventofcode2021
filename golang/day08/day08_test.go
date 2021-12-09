@@ -44,7 +44,7 @@ func TestDecodeOutputDigits(t *testing.T) {
 	}
 	for i, m := range allInputs {
 		expected := allExpected[i]
-		actual := decodeOutputDigits(m)
+		actual := decode(m)
 		if actual != expected {
 			t.Errorf("Expected %d, got %d for %s", expected, actual, testSolution.input[i])
 		}
