@@ -26,5 +26,5 @@ func (d *Solution) Part1() int {
 }
 
 func (d *Solution) Part2() int {
-	return 0
+	return part2(d.input)
 }

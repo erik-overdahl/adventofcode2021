@@ -20,3 +20,15 @@ func TestPart1(t *testing.T) {
 		t.Fatalf("Expected %d, got %d", expected, actual)
 	}
 }
+
+func TestPart2(t *testing.T) {
+	if testSolution.input == nil {
+		blob := utils.ReadFileToString(testFile)
+		testSolution.Init(blob)
+	}
+	expected := 288957
+	actual := part2(testSolution.input)
+	if actual != expected {
+		t.Fatalf("Expected %d, got %d", expected, actual)
+	}
+}

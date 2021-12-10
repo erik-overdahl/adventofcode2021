@@ -1,5 +1,9 @@
 package day10
 
+import (
+	"sort"
+)
+
 var pairs = map[byte]byte{
 	')': '(',
 	'}': '{',
@@ -12,6 +16,10 @@ var scores = map[byte]int{
 	']': 57,
 	'}': 1197,
 	'>': 25137,
+	'(': 1,
+	'[': 2,
+	'{': 3,
+	'<': 4,
 }
 
 type stack struct {
@@ -60,10 +68,45 @@ func part1(input [][]byte) int {
 				}
 			}
 		}
-		// if the line is incomplete, skip for now
-		// if stack.Len() > 0 {
-		// 	fmt.Printf("Line incomplete!\n")
-		// }
 	}
 	return score
+}
+
+func part2(input [][]byte) int {
+	lineScores := []int{}
+	for _, line := range input {
+		stack := MakeStack()
+		lineSize := len(line)
+		corrupted := false
+		for i := 0; i < lineSize && !corrupted; i++ {
+			b := line[i]
+			switch b {
+			case '(', '{', '[', '<':
+				stack.Push(b)
+			default:
+				open := stack.Pop()
+				expected, _ := pairs[b]
+				if open != expected {
+					corrupted = true
+				}
+			}
+		}
+		if !corrupted {
+			score := 0
+			for stack.Len() > 0 {
+				b := stack.Pop()
+				val, _ := scores[b]
+				score = (score * 5) + val
+			}
+			lineScores = append(lineScores, score)
+		}
+	}
+	score := getMiddleScore(lineScores)
+	return score
+}
+
+func getMiddleScore(lineScores []int) int {
+	sort.Ints(lineScores)
+	pos := len(lineScores) / 2
+	return lineScores[pos]
 }
