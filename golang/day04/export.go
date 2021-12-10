@@ -2,7 +2,6 @@ package day04
 
 import (
 	"aoc2021/utils"
-	"fmt"
 )
 
 type Solution struct {
@@ -17,14 +16,12 @@ func (d *Solution) Init(inputBlob string) {
 	d.input = utils.ReadlinesStr(inputBlob)
 }
 
-func (d *Solution) Part1() string {
+func (d *Solution) Part1() int {
 	draws, cards := readInput(d.input)
-	answer := part1(draws, cards)
-	return fmt.Sprintf("%d", answer)
+	return part1(draws, cards)
 }
 
-func (d *Solution) Part2() string {
+func (d *Solution) Part2() int {
 	draws, cards := readInput(d.input)
-	answer := part2(draws, cards)
-	return fmt.Sprintf("%d", answer)
+	return part2(draws, cards)
 }

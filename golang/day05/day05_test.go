@@ -16,10 +16,10 @@ func TestPart1(t *testing.T) {
 		testFileBlob := utils.ReadFileToString(testFile)
 		testSolution.Init(testFileBlob)
 	}
-	expected := "5"
+	expected := 5
 	actual := testSolution.Part1()
 	if actual != expected {
-		t.Fatalf("Expected %s, got %s", expected, actual)
+		t.Fatalf("Expected %d, got %d", expected, actual)
 	}
 }
 
@@ -28,10 +28,10 @@ func TestPart2(t *testing.T) {
 		testFileBlob := utils.ReadFileToString(testFile)
 		testSolution.Init(testFileBlob)
 	}
-	expected := "12"
+	expected := 12
 	actual := testSolution.Part2()
 	if actual != expected {
-		t.Fatalf("Expected %s, got %s", expected, actual)
+		t.Fatalf("Expected %d, got %d", expected, actual)
 	}
 }
 

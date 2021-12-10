@@ -1,7 +1,6 @@
 package day07
 
 import (
-	"fmt"
 	"strconv"
 	"strings"
 )
@@ -26,12 +25,10 @@ func (d *Solution) Init(inputBlob string) {
 	}
 }
 
-func (d *Solution) Part1() string {
-	answer := minFuelToAlign(d.positions, fuelToAlign)
-	return fmt.Sprintf("%d", answer)
+func (d *Solution) Part1() int {
+	return minFuelToAlign(d.positions, fuelToAlign)
 }
 
-func (d *Solution) Part2() string {
-	answer := minFuelToAlign(d.positions, adjustedFuelToAlign)
-	return fmt.Sprintf("%d", answer)
+func (d *Solution) Part2() int {
+	return minFuelToAlign(d.positions, adjustedFuelToAlign)
 }

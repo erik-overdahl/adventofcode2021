@@ -2,7 +2,6 @@ package day05
 
 import (
 	"aoc2021/utils"
-	"fmt"
 )
 
 type Solution struct {
@@ -19,14 +18,12 @@ func (d *Solution) Init(inputBlob string) {
 	d.lines = readInput(d.input)
 }
 
-func (d *Solution) Part1() string {
+func (d *Solution) Part1() int {
 	covered := pointsCoveredVerticalHorizontal(d.lines)
-	answer := numPointsOverlapped(covered)
-	return fmt.Sprintf("%d", answer)
+	return numPointsOverlapped(covered)
 }
 
-func (d *Solution) Part2() string {
+func (d *Solution) Part2() int {
 	covered := pointsCovered(d.lines)
-	answer := numPointsOverlapped(covered)
-	return fmt.Sprintf("%d", answer)
+	return numPointsOverlapped(covered)
 }

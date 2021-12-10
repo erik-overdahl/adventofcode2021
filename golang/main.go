@@ -58,12 +58,12 @@ func runDay(s utils.AOCDay) {
 	start := time.Now()
 	p1 := s.Part1()
 	elapsed := time.Since(start)
-	s1 := fmt.Sprintf("Day %d Part 1 solution: %s  (took %s)\n", day, p1, elapsed)
+	s1 := fmt.Sprintf("Day %d Part 1 solution: %d  (took %s)\n", day, p1, elapsed)
 
 	start = time.Now()
 	p2 := s.Part2()
 	elapsed = time.Since(start)
-	s2 := fmt.Sprintf("Day %d Part 2 solution: %s  (took %s)\n", day, p2, elapsed)
+	s2 := fmt.Sprintf("Day %d Part 2 solution: %d  (took %s)\n", day, p2, elapsed)
 
 	fmt.Printf("%s%s", s1, s2)
 }

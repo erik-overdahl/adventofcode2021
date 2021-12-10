@@ -2,7 +2,6 @@ package day09
 
 import (
 	"aoc2021/utils"
-	"fmt"
 )
 
 type Solution struct {
@@ -26,12 +25,10 @@ func (d *Solution) Init(inputBlob string) {
 	d.input = nums
 }
 
-func (d *Solution) Part1() string {
-	answer := part1(d.input)
-	return fmt.Sprintf("%d", answer)
+func (d *Solution) Part1() int {
+	return part1(d.input)
 }
 
-func (d *Solution) Part2() string {
-	answer := part2(d.input)
-	return fmt.Sprintf("%d", answer)
+func (d *Solution) Part2() int {
+	return part2(d.input)
 }

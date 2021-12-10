@@ -2,7 +2,6 @@ package day06
 
 import (
 	"aoc2021/utils"
-	"fmt"
 )
 
 type Solution struct {
@@ -17,14 +16,12 @@ func (d *Solution) Init(inputBlob string) {
 	d.input = utils.ReadlinesStr(inputBlob)
 }
 
-func (d *Solution) Part1() string {
+func (d *Solution) Part1() int {
 	counts := readInput(d.input)
-	answer := populationOnDay(80, counts)
-	return fmt.Sprintf("%d", answer)
+	return populationOnDay(80, counts)
 }
 
-func (d *Solution) Part2() string {
+func (d *Solution) Part2() int {
 	counts := readInput(d.input)
-	answer := populationOnDay(256, counts)
-	return fmt.Sprintf("%d", answer)
+	return populationOnDay(256, counts)
 }

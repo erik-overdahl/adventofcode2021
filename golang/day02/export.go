@@ -2,7 +2,6 @@ package day02
 
 import (
 	"aoc2021/utils"
-	"fmt"
 )
 
 type Solution struct {
@@ -18,18 +17,16 @@ func (d *Solution) Init(inputBlob string) {
 	d.input = utils.ReadlinesStr(inputBlob)
 }
 
-func (d *Solution) Part1() string {
+func (d *Solution) Part1() int {
 	if d.position == nil {
 		d.position = calculatePosition(d.input)
 	}
-	answer := d.position.horiz * d.position.aim
-	return fmt.Sprintf("%d", answer)
+	return d.position.horiz * d.position.aim
 }
 
-func (d *Solution) Part2() string {
+func (d *Solution) Part2() int {
 	if d.position == nil {
 		d.position = calculatePosition(d.input)
 	}
-	answer := d.position.horiz * d.position.depth
-	return fmt.Sprintf("%d", answer)
+	return d.position.horiz * d.position.depth
 }
