@@ -9,6 +9,7 @@ import (
 	"aoc2021/day06"
 	"aoc2021/day07"
 	"aoc2021/day08"
+	"aoc2021/day09"
 	"aoc2021/utils"
 	"embed"
 	"strings"
@@ -33,6 +34,7 @@ func main() {
 		&day06.Solution{},
 		&day07.Solution{},
 		&day08.Solution{},
+		&day09.Solution{},
 	}
 	for _, s := range solutions {
 		wg.Add(1)
