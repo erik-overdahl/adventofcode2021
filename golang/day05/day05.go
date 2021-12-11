@@ -52,37 +52,45 @@ func readInput(input []string) []Line {
 	return lines
 }
 
-func pointsCoveredVerticalHorizontal(lines []Line) map[Point]int {
-	covered := make(map[Point]int)
+func boundaries(lines []Line) (xMax, yMax int) {
+	for _, l := range lines {
+		if l.end.x > xMax {
+			xMax = l.end.x
+		}
+		if l.start.y > yMax {
+			yMax = l.start.y
+		} else if l.end.y > yMax {
+			yMax = l.end.y
+		}
+	}
+	xMax++
+	yMax++
+	return
+}
+
+func pointsCoveredVerticalHorizontal(lines []Line) []byte {
+	xMax, yMax := boundaries(lines)
+	covered := make([]byte, (xMax*yMax)+1)
 	for _, line := range lines {
 		p1 := line.start
 		p2 := line.end
 		if p1.x == p2.x { // vertical, p1 on top
 			x := p1.x
 			for y := p1.y; y >= p2.y; y-- {
-				pt := makePoint(x, y)
-				if _, exists := covered[pt]; !exists {
-					covered[pt] = 1
-				} else {
-					covered[pt]++
-				}
+				covered[(y*xMax)+x]++
 			}
 		} else if p1.y == p2.y { // horizontal, p1 on left
 			y := p1.y
 			for x := p1.x; x <= p2.x; x++ {
-				pt := makePoint(x, y)
-				if _, exists := covered[pt]; !exists {
-					covered[pt] = 1
-				} else {
-					covered[pt]++
-				}
+				covered[(y*xMax)+x]++
 			}
 		}
 	}
 	return covered
 }
 
-func pointsCovered(lines []Line) map[Point]int {
+func pointsCovered(lines []Line) []byte {
+	xMax, _ := boundaries(lines)
 	covered := pointsCoveredVerticalHorizontal(lines)
 	for _, line := range lines {
 		p1 := line.start
@@ -90,21 +98,11 @@ func pointsCovered(lines []Line) map[Point]int {
 		// only consider diagonal lines; p1 always leftmost
 		if (p1.x != p2.x) && (p1.y < p2.y) {
 			for x, y := p1.x, p1.y; x <= p2.x && y <= p2.y; x, y = x+1, y+1 {
-				pt := makePoint(x, y)
-				if _, exists := covered[pt]; !exists {
-					covered[pt] = 1
-				} else {
-					covered[pt]++
-				}
+				covered[(y*xMax)+x]++
 			}
 		} else if (p1.x != p2.x) && (p1.y > p2.y) {
 			for x, y := p1.x, p1.y; x <= p2.x && y >= p2.y; x, y = x+1, y-1 {
-				pt := makePoint(x, y)
-				if _, exists := covered[pt]; !exists {
-					covered[pt] = 1
-				} else {
-					covered[pt]++
-				}
+				covered[(y*xMax)+x]++
 			}
 
 		}
@@ -112,7 +110,7 @@ func pointsCovered(lines []Line) map[Point]int {
 	return covered
 }
 
-func numPointsOverlapped(covered map[Point]int) int {
+func numPointsOverlapped(covered []byte) int {
 	total := 0
 	for _, n := range covered {
 		if n > 1 {

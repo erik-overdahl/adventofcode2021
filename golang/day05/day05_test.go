@@ -3,7 +3,6 @@ package day05
 import (
 	"aoc2021/utils"
 	"fmt"
-	"strconv"
 	"testing"
 )
 
@@ -35,32 +34,31 @@ func TestPart2(t *testing.T) {
 	}
 }
 
-func parseExpectedOverlaps(reference []string) map[Point]int {
-	expectedMap := make(map[Point]int)
+func parseExpectedOverlaps(reference []string) []byte {
+	expectedMap := make([]byte, len(reference)*len(reference[0]))
 	for y, s := range reference {
 		for x, c := range s {
+			idx := (y * len(reference[0])) + x
 			if c != '.' {
-				n, err := strconv.Atoi(string(c))
-				if err != nil {
-					panic(err)
-				}
-				pt := makePoint(x, y)
-				expectedMap[pt] = n
+				expectedMap[idx] = byte(c) - 0b00110000
+			} else {
+				expectedMap[idx] = 0
 			}
 		}
 	}
 	return expectedMap
 }
 
-func makeVisual(reference []string, actual map[Point]int) []string {
+func makeVisual(reference []string, actual []byte) []string {
 	actualVisual := make([]string, len(reference))
 	for y, row := range reference {
 		newRow := make([]byte, len(row))
 		for x := range row {
-			if n, exists := actual[Point{x, y}]; exists {
-				newRow[x] = []byte(strconv.Itoa(n))[0]
+			n := actual[(y*len(reference[0]))+x]
+			if n == 0 {
+				newRow[x] = '.'
 			} else {
-				newRow[x] = byte('.')
+				newRow[x] = n + 0b00110000
 			}
 		}
 		actualVisual[y] = string(newRow)
@@ -96,10 +94,12 @@ func TestPointsCoveredVerticalHorizontal(t *testing.T) {
 	expected := parseExpectedOverlaps(comparison)
 	actual := pointsCoveredVerticalHorizontal(testSolution.lines)
 	visual := makeVisual(comparison, actual)
-	for pt, n := range expected {
-		actualN, exists := actual[pt]
-		if !exists || actualN != n {
-			msg := fmt.Sprintf("Expected %d, got %d for point %v\n\nexpected:\tactual:\n", n, actualN, pt)
+	for i, n := range expected {
+		actualN := actual[i]
+		if actualN != n {
+			y := i / len(comparison[0])
+			x := i % len(comparison[0])
+			msg := fmt.Sprintf("Expected %d, got %d for point %d, %d\n\nexpected:\tactual:\n", n, actualN, x, y)
 			for i, row := range comparison {
 				msg = fmt.Sprintf("%s%s\t%s\n", msg, row, visual[i])
 			}
@@ -128,10 +128,12 @@ func TestPointsCoveredAll(t *testing.T) {
 	expected := parseExpectedOverlaps(comparison)
 	actual := pointsCovered(testSolution.lines)
 	visual := makeVisual(comparison, actual)
-	for pt, n := range expected {
-		actualN, exists := actual[pt]
-		if !exists || actualN != n {
-			msg := fmt.Sprintf("Expected %d, got %d for point %v\n\nexpected:\tactual:\n", n, actualN, pt)
+	for i, n := range expected {
+		actualN := actual[i]
+		if actualN != n {
+			y := i / len(comparison[0])
+			x := i % len(comparison[0])
+			msg := fmt.Sprintf("Expected %d, got %d for point %d, %d\n\nexpected:\tactual:\n", n, actualN, x, y)
 			for i, row := range comparison {
 				msg = fmt.Sprintf("%s%s\t%s\n", msg, row, visual[i])
 			}
