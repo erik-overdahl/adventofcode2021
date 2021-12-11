@@ -4,24 +4,6 @@ import (
 	"sort"
 )
 
-var pairs = map[byte]byte{
-	')': '(',
-	'}': '{',
-	']': '[',
-	'>': '<',
-}
-
-var scores = map[byte]int{
-	')': 3,
-	']': 57,
-	'}': 1197,
-	'>': 25137,
-	'(': 1,
-	'[': 2,
-	'{': 3,
-	'<': 4,
-}
-
 type stack struct {
 	stack []byte
 	ptr   int
@@ -61,10 +43,10 @@ func part1(input [][]byte) int {
 				stack.Push(b)
 			default:
 				open := stack.Pop()
-				expected, _ := pairs[b]
+				expected := pair(b)
 				if open != expected {
 					corrupted = true
-					score += scores[b]
+					score += getScore(b)
 				}
 			}
 		}
@@ -85,7 +67,7 @@ func part2(input [][]byte) int {
 				stack.Push(b)
 			default:
 				open := stack.Pop()
-				expected, _ := pairs[b]
+				expected := pair(b)
 				if open != expected {
 					corrupted = true
 				}
@@ -95,7 +77,7 @@ func part2(input [][]byte) int {
 			score := 0
 			for stack.Len() > 0 {
 				b := stack.Pop()
-				val, _ := scores[b]
+				val := getScore(b)
 				score = (score * 5) + val
 			}
 			lineScores = append(lineScores, score)
@@ -109,4 +91,42 @@ func getMiddleScore(lineScores []int) int {
 	sort.Ints(lineScores)
 	pos := len(lineScores) / 2
 	return lineScores[pos]
+}
+
+func getScore(b byte) int {
+	switch b {
+	case ')':
+		return 3
+	case ']':
+		return 57
+	case '}':
+		return 1197
+	case '>':
+		return 25137
+	case '(':
+		return 1
+	case '[':
+		return 2
+	case '{':
+		return 3
+	case '<':
+		return 4
+	default:
+		return 0
+	}
+}
+
+func pair(b byte) byte {
+	switch b {
+	case ')':
+		return '('
+	case '}':
+		return '{'
+	case ']':
+		return '['
+	case '>':
+		return '<'
+	default:
+		return 0
+	}
 }
