@@ -12,6 +12,7 @@ import (
 	"aoc2021/day09"
 	"aoc2021/day10"
 	"aoc2021/day11"
+	"aoc2021/day12"
 	"aoc2021/utils"
 	"embed"
 	"strings"
@@ -33,6 +34,7 @@ var solutions = []utils.AOCDay{
 	&day09.Solution{},
 	&day10.Solution{},
 	&day11.Solution{},
+	&day12.Solution{},
 }
 
 var wg sync.WaitGroup
