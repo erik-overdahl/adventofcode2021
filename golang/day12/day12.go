@@ -1,14 +1,15 @@
 package day12
 
 import (
+	"fmt"
 	"strings"
 )
 
 type graph struct {
-	adjList  map[string][]string
-	visited  map[string]bool
-	numPaths int
+	adjList map[string][]string
 }
+
+var memoizer = make(map[string]int)
 
 func MakeGraph(input []string) *graph {
 	adjacencyList := make(map[string][]string)
@@ -26,31 +27,56 @@ func MakeGraph(input []string) *graph {
 		}
 	}
 	adjacencyList["end"] = []string{}
-	visited := make(map[string]bool)
-	for k := range adjacencyList {
-		visited[k] = false
+	return &graph{
+		adjList: adjacencyList,
 	}
-	return &graph{adjList: adjacencyList, visited: visited, numPaths: 0}
 }
 
-func (g *graph) countPaths(v string) {
-	if v == "end" {
-		g.numPaths++
-	} else {
-		if byte(v[0]) > 90 {
-			g.visited[v] = true
-		}
-		for _, n := range g.adjList[v] {
-			if !g.visited[n] {
-				g.countPaths(n)
-			}
-		}
-		g.visited[v] = false
+func (g *graph) countPaths(v string, seen map[string]bool, canReturn bool) int {
+	visited := seen[v]
+	memKey := fmt.Sprintf("%s_%v_%v", v, seen, canReturn)
+	if result, exists := memoizer[memKey]; exists {
+		return result
 	}
+	if v == "end" {
+		return 1
+	} else if visited {
+		if v == "start" {
+			return 0
+		} else if byte(v[0]) > 90 && !canReturn {
+			return 0
+		} else if byte(v[0]) > 90 && canReturn {
+			canReturn = false
+		}
+	}
+	// fucking fine
+	seenCopy := make(map[string]bool)
+	for k, v := range seen {
+		seenCopy[k] = v
+	}
+	seenCopy[v] = true
+	sum := 0
+	for _, n := range g.adjList[v] {
+		sum += g.countPaths(n, seenCopy, canReturn)
+	}
+	memoizer[memKey] = sum
+	return sum
 }
 
 func part1(input []string) int {
 	graph := MakeGraph(input)
-	graph.countPaths("start")
-	return graph.numPaths
+	seen := make(map[string]bool)
+	for v := range graph.adjList {
+		seen[v] = false
+	}
+	return graph.countPaths("start", seen, false)
+}
+
+func part2(input []string) int {
+	graph := MakeGraph(input)
+	seen := make(map[string]bool)
+	for v := range graph.adjList {
+		seen[v] = false
+	}
+	return graph.countPaths("start", seen, true)
 }

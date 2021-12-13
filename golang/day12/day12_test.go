@@ -23,3 +23,18 @@ func TestPart1(t *testing.T) {
 		}
 	}
 }
+
+func TestPart2(t *testing.T) {
+	testGraphs := make([][]string, len(testFiles))
+	for i, f := range testFiles {
+		testFileBlob := utils.ReadFileToString(f)
+		testGraphs[i] = utils.ReadlinesStr(testFileBlob)
+	}
+	expected := []int{36, 103, 3509}
+	for i, g := range testGraphs {
+		actual := part2(g)
+		if actual != expected[i] {
+			t.Errorf("Graph %d: Expected %d, got %d", i+1, expected[i], actual)
+		}
+	}
+}
