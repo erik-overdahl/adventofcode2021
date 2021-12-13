@@ -1,7 +1,6 @@
 package day12
 
 import (
-	"fmt"
 	"strings"
 )
 
@@ -76,7 +75,6 @@ func makeGraph(input []string) *graph {
 		edges[pos1] = append(edges[pos1], pos2)
 		edges[pos2] = append(edges[pos2], pos1)
 	}
-	fmt.Println(positions)
 	gPositions := make([]string, len(positions))
 	for name, pos := range positions {
 		gPositions[pos] = name
