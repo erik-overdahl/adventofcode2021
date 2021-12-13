@@ -11,7 +11,7 @@ func TestPart1(t *testing.T) {
 	testFileBlob := utils.ReadFileToString(testFile)
 	lines := utils.ReadlinesStr(testFileBlob)
 	points, reflections := readInput(lines)
-	points = applyReflections(points, reflections[:1])
+	points = distinct(applyReflections(points, reflections[:1]))
 	expected := 17
 	actual := len(points)
 	if actual != expected {

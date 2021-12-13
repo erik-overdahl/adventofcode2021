@@ -1,7 +1,6 @@
 package day13
 
 import (
-	// "fmt"
 	"fmt"
 	"strconv"
 	"strings"
@@ -11,13 +10,13 @@ type point struct{ x, y int }
 
 func part1(input []string) int {
 	points, reflections := readInput(input)
-	points = applyReflections(points, reflections[:1])
+	points = distinct(applyReflections(points, reflections[:1]))
 	return len(points)
 }
 
 func part2(input []string) int {
 	points, reflections := readInput(input)
-	points = applyReflections(points, reflections)
+	points = distinct(applyReflections(points, reflections))
 	xMax, yMax := 0, 0
 	for _, p := range points {
 		if p.x > xMax {
@@ -46,31 +45,63 @@ func part2(input []string) int {
 	return 0
 }
 
-func applyReflections(points []point, reflections [](func(point) point)) []point {
-	seen := make([]point, 0, len(points))
+func applyReflections(points []point, reflections [](func([]point) []point)) []point {
 	for _, f := range reflections {
-		for _, p := range points {
-			p = f(p)
-			exists := false
-			for _, pt := range seen {
-				if (p.x == pt.x) && (p.y == pt.y) {
-					exists = true
-				}
-			}
-			if !exists {
-				seen = append(seen, p)
-			}
-		}
-		points = seen
-		seen = []point{}
+		points = f(points)
 	}
 	return points
 }
 
-func readInput(input []string) ([]point, [](func(point) point)) {
+func distinct(points []point) []point {
+	seen := make([]point, 0, len(points))
+	for _, p := range points {
+		exists := false
+		for i := 0; i < len(seen) && !exists; i++ {
+			pt := seen[i]
+			if p.x == pt.x && p.y == pt.y {
+				exists = true
+			}
+		}
+		if !exists {
+			seen = append(seen, p)
+		}
+	}
+	return seen
+}
+
+func reflectX(p point, pos int) point {
+	if p.x > pos {
+		p.x -= 2 * (p.x - pos)
+	}
+	return p
+}
+
+func reflectY(p point, pos int) point {
+	if p.y > pos {
+		p.y -= 2 * (p.y - pos)
+	}
+	return p
+}
+
+func getReflection(axis byte, pos int) func([]point) []point {
+	var f (func(point, int) point)
+	switch axis {
+	case 'x':
+		f = reflectX
+	case 'y':
+		f = reflectY
+	}
+	return func(points []point) []point {
+		for i, p := range points {
+			points[i] = f(p, pos)
+		}
+		return points
+	}
+}
+
+func readInput(input []string) ([]point, [](func([]point) []point)) {
 	size := len(input)
 	points := []point{}
-	reflections := [](func(point) point){}
 	nums := make([]int, 2)
 	i := 0
 	for ; input[i] != ""; i++ {
@@ -85,6 +116,7 @@ func readInput(input []string) ([]point, [](func(point) point)) {
 		points = append(points, point{nums[0], nums[1]})
 	}
 	i++
+	reflections := [](func([]point) []point){}
 	for ; i < size; i++ {
 		parts := strings.Split(input[i], " ")
 		r := []byte(parts[2])
@@ -92,31 +124,7 @@ func readInput(input []string) ([]point, [](func(point) point)) {
 		if err != nil {
 			panic(err)
 		}
-		var f func(point) point
-		if r[0] == 'x' {
-			f = func(p point) point {
-				return reflectX(p, n)
-			}
-		} else if r[0] == 'y' {
-			f = func(p point) point {
-				return reflectY(p, n)
-			}
-		}
-		reflections = append(reflections, f)
+		reflections = append(reflections, getReflection(r[0], n))
 	}
 	return points, reflections
-}
-
-func reflectX(p point, axis int) point {
-	if p.x > axis {
-		p.x -= 2 * (p.x - axis)
-	}
-	return p
-}
-
-func reflectY(p point, axis int) point {
-	if p.y > axis {
-		p.y -= 2 * (p.y - axis)
-	}
-	return p
 }
