@@ -14,6 +14,7 @@ import (
 	"aoc2021/day11"
 	"aoc2021/day12"
 	"aoc2021/day13"
+	"aoc2021/day14"
 	"aoc2021/utils"
 	"embed"
 	"strings"
@@ -37,6 +38,7 @@ var solutions = []utils.AOCDay{
 	&day11.Solution{},
 	&day12.Solution{},
 	&day13.Solution{},
+	&day14.Solution{},
 }
 
 var wg sync.WaitGroup
@@ -55,12 +57,14 @@ func main() {
 		res <- outputs
 	}()
 	for _, s := range solutions {
-		wg.Add(1)
-		go func(solutions utils.AOCDay) {
-			defer wg.Done()
-			msg := runDay(solutions)
-			outChan <- output{solutions.Day() - 1, msg}
-		}(s)
+		if s != nil {
+			wg.Add(1)
+			go func(solutions utils.AOCDay) {
+				defer wg.Done()
+				msg := runDay(solutions)
+				outChan <- output{solutions.Day() - 1, msg}
+			}(s)
+		}
 	}
 	wg.Wait()
 	close(outChan)
